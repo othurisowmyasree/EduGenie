@@ -194,7 +194,7 @@ Software
 
 👨‍💻 Developed By
 
-Mani
+OTHURI SOWMYA SREE
 
 B.Tech Student
 
