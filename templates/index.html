@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>EduGenie</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <h1>📚 EduGenie</h1>
+    <h3>AI Powered Educational Assistant</h3>
+
+    <input
+        type="text"
+        id="topic"
+        placeholder="Enter Topic or Question">
+
+    <br><br>
+
+    <select id="task">
+        <option value="explain">Explain</option>
+        <option value="qa">Question Answer</option>
+        <option value="quiz">Quiz</option>
+        <option value="summarize">Summarize</option>
+        <option value="learn">Learning Path</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="generate()">Generate</button>
+
+    <hr>
+
+    <h2>Response</h2>
+
+    <pre id="result">Your AI response will appear here...</pre>
+
+<script>
+
+async function generate() {
+
+    let topic = document.getElementById("topic").value.trim();
+
+    if(topic==""){
+        alert("Please enter a topic or question.");
+        return;
+    }
+
+    let task = document.getElementById("task").value;
+
+    let url="";
+
+    if(task=="explain"){
+        url=`/explain?topic=${encodeURIComponent(topic)}`;
+    }
+
+    else if(task=="qa"){
+        url=`/qa?question=${encodeURIComponent(topic)}`;
+    }
+
+    else if(task=="quiz"){
+        url=`/quiz?topic=${encodeURIComponent(topic)}`;
+    }
+
+    else if(task=="summarize"){
+        url=`/summarize?text=${encodeURIComponent(topic)}`;
+    }
+
+    else if(task=="learn"){
+        url=`/learn?topic=${encodeURIComponent(topic)}`;
+    }
+
+    document.getElementById("result").innerHTML="⏳ Generating response...";
+
+    try{
+
+        const response = await fetch(url);
+
+        const data = await response.json();
+
+        if(data.response){
+            document.getElementById("result").innerHTML=data.response;
+        }
+        else{
+            document.getElementById("result").innerHTML="No response received.";
+        }
+
+    }
+
+    catch(error){
+
+        document.getElementById("result").innerHTML=
+        "❌ Error connecting to AI server.";
+
+        console.log(error);
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
